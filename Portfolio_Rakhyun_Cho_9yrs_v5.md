@@ -1,0 +1,464 @@
+# 조락현 (Rakhyun Cho)
+## Senior Embedded Engineer | 9년차 | HW/FW Full-Stack 개발자
+
+---
+
+## 📋 핵심 역량
+
+- **임베디드 시스템**: STM32 (F1, F4, H7), ARM Cortex-M 기반 펌웨어 개발
+- **하드웨어 설계**: Altium Designer 기반 회로 설계 및 PCB Layout
+- **실시간 제어**: FreeRTOS, PID 제어, 모터 제어 (Stepper, BLDC)
+- **광학 시스템**: UV/IR LED, Photo Diode Array, 레이저 광학계
+- **통신 프로토콜**: UART, SPI, I2C, Ethernet (LwIP), TCP/UDP
+
+---
+
+## 💧 Nu-2000 (Lux) - UV+IR 용액 농도 분석기
+
+> UV+IR 광학을 이용한 용액 농도 분석 장비
+
+### 프로젝트 개요
+- **제품**: UV+IR(광학)를 이용한 용액 농도 분석 장비
+- **역할**: 회로 설계 + 펌웨어 개발 (100%)
+- **MCU**: STM32F407 (ARM Cortex-M4, 168MHz)
+
+### 핵심 기술
+- UV/IR LED 광학 측정: 흡광도 기반 농도 분석
+- ADS1115 16비트 ADC: I2C 인터페이스, Delta-Sigma 방식
+- 이동평균 필터: 노이즈 제거 및 측정 안정화
+- 시린지 펌프: A3977 스테핑 모터 마이크로스텝 제어
+- Nextion HMI LCD: 터치스크린 UI
+
+### 코드 샘플 - I2C 센서 데이터 이동평균
+
+```c
+// ADS1115.c - I2C ADC 센서 데이터 수집 및 이동평균 계산
+// UV/IR Photo Diode 신호를 16비트 ADC로 측정
+
+/* I2C를 통한 ADC 데이터 읽기 */
+int ads1115_read(uint16_t addr, uint8_t *pdata) {
+    uint16_t i2c_addr = (addr | 0x01);  // Read operation
+    int result = HAL_I2C_Master_Receive(&hi2c3, i2c_addr, pdata, 2, 10);
+    ads1115_i2c_err_check(addr, result);
+    return result;
+}
+
+/* 이동평균 계산 - 노이즈 제거 및 안정적 측정 */
+void adc_pd_svc_beta(uint8_t ch, int sig_dark, uint16_t val) {
+    uint32_t sum;
+    int i, cnt;
+    
+    // 버퍼 포인터 증가 (순환 버퍼)
+    cnt = pPD_STR->ma_cnt;
+    if (++cnt >= ((bd.env.working[FILTER] & 0x00FFFFFF) * 5))
+        cnt = 0;
+    pPD_STR->ma_cnt = cnt;
+    
+    // ADC 값 저장 (양수만 허용)
+    pPD_STR->raw[cnt] = val;
+    if (val < 0x8000) {
+        pPD_STR->raw_pos[cnt] = val;
+        pPD_STR->vtg_raw = (float)val * 0.000125;  // 125uV/step
+    } else {
+        pPD_STR->raw_pos[cnt] = 0;
+    }
+    
+    // 이동평균 계산 (Filter * 5회 샘플)
+    sum = 0;
+    for (i = 0; i < ((bd.env.working[FILTER] & 0x00FFFFFF) * 5); i++) 
+        sum += pPD_STR->raw_pos[i];
+    
+    pPD_STR->raw_mavg = (uint16_t)((float)sum / (float)((bd.env.working[FILTER] & 0x00FFFFFF) * 5));
+    pPD_STR->vtg_mavg = (float)pPD_STR->raw_mavg * 0.000125;  // 전압 변환
+}
+```
+
+---
+
+## 🧪 L-Titrator - 적정식 용액 농도 분석기
+
+> 적정(Titration) 방식을 활용한 용액 농도 분석 장비
+
+### 프로젝트 개요
+- **제품**: 적정 방식을 활용한 용액 농도 분석 장비
+- **역할**: 회로 설계 + 펌웨어 개발 (100%)
+- **MCU**: STM32F407 (ARM Cortex-M4)
+
+### 핵심 기술
+- Hamilton 시린지 펌프: RS485 프로토콜 제어
+- 상태머신 기반 제어: 안정적인 펌프 동작 관리
+- pH/전도도 센서: 적정 종말점 자동 검출
+- 배터리 관리: 휴대용 기기 저전력 설계
+
+### 코드 샘플 - 시린지 펌프 상태머신
+
+```c
+// syringe_pump_ctrl.c - Hamilton 시린지 펌프 상태머신 제어
+// RS485 통신으로 시린지 펌프 명령/응답 처리
+
+/* 시린지 펌프 상태 머신 */
+void syr_pump_st10_svc(void) {
+    int data_pos;
+    
+    switch (syr_pump[syr_pump_ch].st) {
+        case 0x10:  // 시린지 상태 조회
+            syr_pump_query_cmd(QUERY_SRG_STATUS);
+            syr_pump[syr_pump_ch].st++;
+            syr_pump[syr_pump_ch].resp_cnt = 0;
+            break;
+            
+        case 0x11:  // 응답 대기 및 처리
+            if (++syr_pump[syr_pump_ch].resp_cnt >= SRG_PUMP_RESP_TIMEOUT) {
+                // 타임아웃 - 초기 상태로 복귀
+                syr_pump[syr_pump_ch].st = SRG_PUMP_ST00_DETECT;
+                trace_printf(TPID_DEBUG, "syr_pump[%d] : no response\n", syr_pump_ch);
+            } else {
+                if (syr_pump_rx_flag == 1) {
+                    syr_pump_rx_flag = 0;
+                    data_pos = is_Q_ack_packet(uart[TPID_RS485].command, uart[TPID_RS485].cmd_index);
+                    
+                    if (data_pos > 0) {
+                        syr_pump[syr_pump_ch].syr_status = syr_pump[syr_pump_ch].temp;
+                        if (syr_pump[syr_pump_ch].syr_status == 0) {
+                            trace_printf(TPID_DEBUG, "syr_pump[%d] : initialized\n", syr_pump_ch);
+                            syr_pump[syr_pump_ch].st++;
+                        }
+                    }
+                }
+            }
+            break;
+    }
+}
+```
+
+---
+
+## 🔬 Psi-1000/3000 - 정밀 가스 제어 시스템
+
+> 진공 게이지 모니터링 기반 정밀 가스 제어 시스템
+
+### 프로젝트 개요
+- **제품**: 정밀 가스 제어 시스템 (반도체/디스플레이 공정용)
+- **역할**: 회로 설계 + 펌웨어 개발 (100%)
+- **MCU**: STM32F407 (ARM Cortex-M4, 168MHz)
+
+### 핵심 기술
+- 진공 게이지 인터페이스: Pirani/Capacitance Gauge 연동
+- 고속 PID 피드백 제어: 250ms 주기 압력 제어
+- FreeRTOS 멀티태스킹: 압력제어, 센서, 통신 병렬 처리
+- Ethernet (LwIP): TCP/UDP PC 제어 인터페이스
+- PID Auto-Tuning: 최적 파라미터 자동 탐색
+
+### 코드 샘플 - 가스 압력 PID 제어
+
+```c
+// PrsCtrl.c - 정밀 가스 압력 PID 제어
+// 진공 게이지 모니터링 + 250ms 주기 고속 피드백
+
+/* 압력 제어 변수 */
+INTERNAL float32_t sglPrsCtrlFilteredPressureP1;   // 입력 압력 (torr)
+INTERNAL float32_t sglPrsCtrlControlPeriod = 0.25f; // 250ms 제어 주기
+
+/* PID 압력 제어 알고리즘 */
+void pid_pressure_compute(PID_STR *pPID) {
+    float error = pPID->sp - pPID->pv;  // 목표압력 - 현재압력
+    
+    // P (비례항) - 즉각적인 오차 반응
+    pPID->p_term = pPID->kp * error;
+    
+    // I (적분항) - 누적 오차 보정
+    pPID->i_term += pPID->ki * error;
+    if (pPID->i_term > pPID->i_max) pPID->i_term = pPID->i_max;
+    if (pPID->i_term < pPID->i_min) pPID->i_term = pPID->i_min;
+    
+    // D (미분항) - 급격한 변화 억제
+    pPID->d_term = pPID->kd * (error - pPID->prev_error);
+    pPID->prev_error = error;
+    
+    // 최종 출력 = 밸브 PWM 듀티
+    pPID->co = pPID->p_term + pPID->i_term + pPID->d_term;
+}
+```
+
+---
+
+## 🔴 LPC - 레이저 파티클 분석기
+
+> 레이저(광학)를 이용한 슬러리 파티클 분석 장비
+
+### 프로젝트 개요
+- **제품**: 레이저 광학 기반 슬러리 파티클 카운터
+- **역할**: 회로 설계 + 펌웨어 개발 (100%)
+- **MCU**: STM32F407 (ARM Cortex-M4)
+
+### 핵심 기술
+- 레이저 광학계: 산란광 검출 기반 파티클 계수
+- TCP/IP 통신 (LwIP): PC 원격 제어 및 데이터 전송
+- FreeRTOS: 멀티태스킹 기반 실시간 처리
+- 고속 ADC 샘플링: 실시간 파티클 신호 검출
+
+### 코드 샘플 - TCP 서버 통신
+
+```c
+// ethernet.c - TCP 서버 통신 (LwIP netconn API)
+// FreeRTOS 태스크로 TCP 클라이언트 연결 관리
+
+void TcpTask(void *arg) {
+    struct netconn *conn, *newconn;
+    err_t err, recv_err;
+    
+    // 1. TCP 연결 생성 및 바인딩
+    conn = netconn_new(NETCONN_TCP);
+    err = netconn_bind(conn, NULL, TELNET_TCP_PORT);  // Port 23
+    netconn_listen(conn);
+    
+    while (1) {
+        task_cnt_tcp++;
+        osDelay(1);
+        
+        // 2. 클라이언트 연결 수락 (1ms 타임아웃)
+        conn->recv_timeout = 1;
+        err = netconn_accept(conn, &newconn);
+        
+        if (err == ERR_OK) {
+            bd.eth.tcp.connected = 1;
+            netconn_getaddr(newconn, &bd.eth.tcp.remote_ip, &bd.eth.tcp.remote_port, 0);
+            
+            for (;;) {
+                // 3. 데이터 수신 처리
+                newconn->recv_timeout = 1;
+                recv_err = netconn_recv(newconn, &buf);
+                
+                if (recv_err == ERR_OK) {
+                    netbuf_data(buf, &data, &len);
+                    for (i = 0; i < len; i++)
+                        debug_command_process(TPID_TCP, ((char *)data)[i]);
+                    netbuf_delete(buf);
+                } else if (recv_err == ERR_CLSD) {
+                    netconn_close(newconn);
+                    break;  // 연결 종료
+                }
+            }
+        }
+    }
+}
+```
+
+---
+
+## 📊 SSC - Photo Diode Array 슬러리 분석기
+
+> Photo Diode Array를 사용한 광학식 슬러리 분석 장비
+
+### 프로젝트 개요
+- **제품**: PDA 기반 광학식 슬러리 분석기
+- **역할**: 회로 설계 + 펌웨어 개발 (100%)
+- **MCU**: STM32G0 시리즈
+
+### 핵심 기술
+- Photo Diode Array: 다채널 동시 광학 측정
+- UART 인터럽트 + 큐: 센서 데이터 실시간 수집
+- 분광 분석: 파장별 흡광도 측정
+- RS485 통신: 외부 장비 연동
+
+### 코드 샘플 - UART 인터럽트 및 데이터 수집
+
+```c
+// SSC_main.c - UART 수신 인터럽트 및 큐 처리
+// Photo Diode Array 센서 데이터 수집
+
+/* UART 수신 인터럽트 핸들러 */
+void my_uart_rx_irq_handler(UART_HandleTypeDef *huart) {
+    TERM_PORT   tpid;
+    UART_STR*   pUART;
+    uint32_t    isrflags = READ_REG(huart->Instance->ISR);
+    
+    // 1. UART 소스 식별
+    if (huart->Instance == USART1) {
+        tpid  = TPID_DEBUG;
+        pUART = &uart[TPID_DEBUG];
+    } else if (huart->Instance == USART2) {
+        tpid  = TPID_RS485;
+        pUART = &uart[TPID_RS485];
+    } else {
+        return;
+    }
+    
+    // 2. 수신 데이터 및 에러 플래그 읽기
+    pUART->rx_err_flag = (isrflags & (USART_ISR_PE | USART_ISR_FE | USART_ISR_ORE | USART_ISR_NE));
+    pUART->rx_data = (uint8_t)(huart->Instance->RDR & 0x00FF);
+    
+    // 3. 수신 큐에 저장
+    rxQ_write(tpid, pUART->rx_data);
+    
+    // 4. 에러 발생 시 출력
+    if (pUART->rx_err_flag)
+        term_printf(TPID_DEBUG, "UART[%d] Rx Err: 0x%08x\n", tpid, pUART->rx_err_flag);
+}
+
+/* 타이머 인터럽트 (1ms/10ms 틱 생성) */
+void HAL_IncTick(void) {
+    uwTick += uwTickFreq;
+    tick_1ms++;
+    if ((tick_1ms % 10) == 0) tick_10ms++;
+}
+```
+
+---
+
+## 🧪 MS (Aston) - 질량분석기 DRV Board
+
+> 질량분석기 Drive Board - 펌프, 센서 등 장비 제어
+
+### 프로젝트 개요
+- **제품**: 수질분석용 질량분석기 (Mass Spectrometer)
+- **담당**: DRV Board 회로 설계 + 펌웨어 개발
+- **MCU**: STM32F407 (ARM Cortex-M4)
+
+### DRV Board 핵심 기능
+- 외부 프로토콜 통신: Horiba CS-610F 프로토콜 구현
+- 펌프 제어: 시료/시약 주입 펌프 구동
+- 센서 인터페이스: 다채널 ADC 센서 신호 측정
+- 릴레이 제어: 외부 장비 On/Off 제어
+- SD카드 로깅: FATFS 데이터 저장
+
+### 코드 샘플 - 외부 장비 프로토콜 통신
+
+```c
+// CS_610F_comm.c - Horiba CS-610F 프로토콜 구현
+// DRV Board에서 외부 장비와 통신 프로토콜 처리
+
+/* 프로토콜 응답 생성 - 측정 데이터 전송 */
+// Command : R,DD[CR][LF]
+// Response: DD,XXX,X,X,XXX.XX,XXXXXX,...[CR][LF]
+void cmd_RDD_svc(void) {
+    char resp[70];
+    int  cnt = 0;
+    int  resp_cnt = bd.cs610f.resp_cnt;
+    
+    if (++bd.cs610f.resp_cnt >= 1000)
+        bd.cs610f.resp_cnt = 0;
+    
+    // 응답 프레임 구성
+    resp[cnt++] = 'D';
+    resp[cnt++] = 'D';
+    resp[cnt++] = ',';
+    
+    cnt += sprintf(&resp[cnt], "%03d", resp_cnt);           // No
+    resp[cnt++] = ',';
+    cnt += sprintf(&resp[cnt], "%01d", bd.cs610f.meas_stat); // Status
+    resp[cnt++] = ',';
+    cnt += sprintf(&resp[cnt], "%01d", bd.cs610f.chem_type); // Chemical type
+    resp[cnt++] = ',';
+    cnt += sprintf(&resp[cnt], "%06.2f", bd.concent_str.temp_1);    // Temperature
+    resp[cnt++] = ',';
+    cnt += sprintf(&resp[cnt], "%06.2f", bd.concent_str.concent1);  // Concentration 1
+    resp[cnt++] = ',';
+    cnt += sprintf(&resp[cnt], "%06.2f", bd.concent_str.concent2);  // Concentration 2
+    // ... 나머지 필드
+    
+    // 응답 전송
+    term_printf(TPID_RS232, "%s\r\n", resp);
+}
+```
+
+---
+
+## 🔧 ATIK JIG Board - 보드 입고 테스트 장비
+
+> 보드 입고 테스트를 위한 자동화 테스트 장비
+
+### 프로젝트 개요
+- **제품**: 생산라인 보드 입고 테스트용 JIG
+- **역할**: 회로 설계 + 펌웨어 개발 (100%)
+- **MCU**: STM32F407 (ARM Cortex-M4)
+
+### 핵심 기술
+- 다중 UART 인터럽트: 4개 포트 동시 핸들링
+- 큐 기반 데이터 관리: 링 버퍼로 데이터 손실 방지
+- 다중 제품 지원: L-Titrator, Nu-2000, Sigma, Psi 등
+- 자동화 테스트: ADC/DAC, 통신, GPIO 자동 검증
+- 릴레이/MUX 제어: 테스트 포인트 자동 선택
+
+### 코드 샘플 - 멀티 UART 인터럽트 및 큐
+
+```c
+// ATIK_JIG_main.c - UART 인터럽트 및 큐 기반 통신
+// 다중 UART 포트 동시 핸들링
+
+/* 지원 제품 목록 */
+const char hw_model_str[16][30] = {
+    "1.L-Titrator", "2.Nu-2000", "3.Sigma-3000/4000",
+    "4.Psi-3000", "5.Psi-1000", "15.ATIK_JIG"
+};
+
+/* UART 수신 인터럽트 핸들러 - 큐 기반 데이터 관리 */
+void my_uart_rx_irq_handler(UART_HandleTypeDef *huart) {
+    TERM_PORT   tpid;
+    UART_STR*   pUART;
+    uint32_t    isrflags = READ_REG(huart->Instance->SR);
+    
+    // 1. UART 포트 식별 (멀티 포트 지원)
+    if (huart->Instance == USART1)      { tpid = TPID_DEBUG; pUART = &uart[TPID_DEBUG]; }
+    else if (huart->Instance == USART2) { tpid = TPID_PANEL; pUART = &uart[TPID_PANEL]; }
+    else if (huart->Instance == USART3) { tpid = TPID_RS232; pUART = &uart[TPID_RS232]; }
+    else if (huart->Instance == USART6) { tpid = TPID_RS485; pUART = &uart[TPID_RS485]; }
+    else return;
+    
+    // 2. 데이터 및 에러 읽기 (SR → DR 순서로 에러 플래그 클리어)
+    pUART->rx_err_flag = (isrflags & (USART_SR_PE | USART_SR_FE | USART_SR_ORE | USART_SR_NE));
+    pUART->rx_data = (uint8_t)(huart->Instance->DR & 0x00FF);
+    
+    // 3. 수신 큐에 저장 (링 버퍼)
+    rxQ_write(tpid, pUART->rx_data);
+    
+    // 4. 오버런 등 에러 로깅
+    if (pUART->rx_err_flag)
+        term_printf(TPID_DEBUG, "UART[%d] Err: 0x%08x\n", tpid, pUART->rx_err_flag);
+}
+```
+
+---
+
+## ⚗️ Sigma-1000/3000/4000 - COD 분석 시스템
+
+> COD/BOD/TOC 수질분석 전용 장비
+
+### 프로젝트 개요
+- **제품**: COD(화학적 산소요구량) 자동분석 시스템
+- **역할**: 회로 설계 (Hardware Only)
+- **MCU**: STM32F407 (ARM Cortex-M4)
+
+### 회로 설계 주요 사항
+- UV-IR LED 드라이버 회로: 정전류 구동
+- Photo Diode 신호 증폭: 저잡음 트랜스임피던스 앰프
+- 다채널 ADC 인터페이스: AD7682 16비트 ADC
+- 시린지 펌프 드라이버: 스테핑 모터 구동 회로
+- 온도 제어 회로: 히터/쿨러 PWM 드라이버
+
+---
+
+## 🛠️ 기술 스택
+
+### 프로그래밍 언어
+- C/C++ (Embedded), Python, Verilog
+
+### MCU/프로세서
+- STM32 시리즈 (F1, F4, G0, H7), Renesas RA6M4
+- Xilinx Zynq (FPGA + ARM)
+
+### 개발 도구
+- **IDE**: STM32CubeIDE, VS Code, Keil
+- **EDA**: Altium Designer (회로설계/PCB)
+- **버전관리**: Git, GitHub
+
+---
+
+## 📞 연락처
+
+- 📧 **Email**: gari210@naver.com
+- 🐙 **GitHub**: github.com/gari210404
+
+---
+
+*Thank you for reviewing my portfolio!*
