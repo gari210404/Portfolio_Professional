@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>조락현 | Rakhyeun Jo - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: #e5e5e5;
+            padding: 40px 20px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 50px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #34495e;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        /* Main Content */
+        .content {
+            padding: 40px 50px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #34495e;
+            display: inline-block;
+            page-break-after: avoid;
+        }
+
+        /* Core Competencies - Clean List */
+        .competencies-wrapper {
+            background: #ecf0f1;
+            padding: 20px 30px;
+            border-radius: 12px;
+            border-left: 6px solid #34495e;
+            margin-top: 20px;
+            page-break-inside: avoid;
+        }
+
+        /* Project Index */
+        .project-index {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 6px solid #34495e;
+        }
+
+        .project-index h3 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .project-index-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .project-index-item {
+            padding: 15px 20px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #34495e;
+            transition: transform 0.2s;
+        }
+
+        .project-index-item:hover {
+            transform: translateX(5px);
+        }
+
+        .project-index-number {
+            font-size: 14px;
+            color: #999;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .project-index-title {
+            font-size: 16px;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .project-index-desc {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .competencies-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 30px;
+            margin-top: 10px;
+        }
+
+        .competency-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .competency-icon {
+            font-size: 20px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .competency-text {
+            font-size: 15px;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .competency-text strong {
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        /* Project Card */
+        .project-card {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            page-break-before: always;
+            page-break-inside: avoid;
+        }
+
+        .project-card:first-of-type {
+            page-break-before: auto;
+        }
+
+        .project-header {
+            padding: 20px 25px;
+            background: #ecf0f1;
+            border-left: 6px solid #34495e;
+            page-break-after: avoid;
+        }
+
+        .project-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 6px;
+        }
+
+        .project-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .project-content {
+            display: block;
+            padding: 20px 25px;
+        }
+
+        .project-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            page-break-inside: avoid;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-value {
+            font-size: 13px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .project-section {
+            margin-top: 20px;
+            page-break-inside: avoid;
+        }
+
+        .project-section h4 {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-weight: 600;
+            page-break-after: avoid;
+        }
+
+        .project-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .project-section li {
+            padding: 6px 0;
+            padding-left: 22px;
+            position: relative;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .project-section li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #34495e;
+            font-weight: bold;
+        }
+
+        /* Code Block */
+        .code-block {
+            margin: 15px 0;
+            background: #2c3e50;
+            border-radius: 8px;
+            overflow: hidden;
+            page-break-inside: avoid;
+        }
+
+        .code-header {
+            padding: 10px 15px;
+            background: #34495e;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+            page-break-after: avoid;
+        }
+
+        .code-content {
+            padding: 15px;
+            color: #ecf0f1;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .code-content pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        /* Project Images */
+        .project-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            page-break-inside: avoid;
+        }
+        
+        .project-images-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+            page-break-inside: avoid;
+        }
+        
+        .project-images-grid img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 50px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
+            
+            * {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+            
+            body {
+                padding: 0;
+                background: white;
+                line-height: 1.4;
+                orphans: 3;
+                widows: 3;
+            }
+            
+            .container {
+                max-width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .header {
+                padding: 20px 30px;
+                page-break-after: avoid;
+            }
+            
+            .header h1 {
+                font-size: 32px;
+                margin-bottom: 6px;
+            }
+            
+            .header .subtitle {
+                font-size: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .content {
+                padding: 20px 30px;
+            }
+            
+            .section {
+                margin-bottom: 25px;
+                page-break-inside: avoid;
+            }
+            
+            .section-title {
+                font-size: 24px;
+                margin-bottom: 10px;
+                padding-bottom: 8px;
+                page-break-after: avoid;
+                orphans: 3;
+                widows: 3;
+            }
+            
+            .competencies-wrapper {
+                padding: 15px 20px;
+                margin-top: 15px;
+                page-break-inside: avoid;
+            }
+            
+            .competencies-list {
+                gap: 10px 25px;
+            }
+            
+            .project-index {
+                margin-top: 30px;
+                padding: 20px;
+                page-break-after: always;
+            }
+            
+            .project-index h3 {
+                font-size: 22px;
+                margin-bottom: 15px;
+            }
+            
+            .project-index-list {
+                gap: 12px;
+            }
+            
+            .project-index-item {
+                padding: 12px 15px;
+            }
+            
+            .project-index-number {
+                font-size: 13px;
+            }
+            
+            .project-index-title {
+                font-size: 15px;
+            }
+            
+            .project-index-desc {
+                font-size: 11px;
+            }
+            
+            .competency-text {
+                font-size: 13px;
+            }
+            
+            .project-card {
+                margin-bottom: 20px;
+                page-break-inside: avoid;
+                page-break-before: auto;
+            }
+            
+            .project-header {
+                padding: 15px 20px;
+                page-break-after: avoid;
+            }
+            
+            .project-title {
+                font-size: 20px;
+            }
+            
+            .project-subtitle {
+                font-size: 13px;
+            }
+            
+            .project-content {
+                display: block !important;
+                padding: 15px 20px;
+            }
+            
+            .project-meta {
+                margin: 12px 0;
+                padding: 12px;
+                gap: 10px;
+                page-break-inside: avoid;
+            }
+            
+            .meta-label {
+                font-size: 11px;
+            }
+            
+            .meta-value {
+                font-size: 13px;
+            }
+            
+            .project-section {
+                margin-top: 15px;
+                page-break-inside: avoid;
+            }
+            
+            .project-section h4 {
+                font-size: 15px;
+                margin-bottom: 10px;
+                page-break-after: avoid;
+            }
+            
+            .project-section li {
+                padding: 5px 0;
+                padding-left: 20px;
+                font-size: 12px;
+            }
+            
+            .code-block {
+                margin: 12px 0;
+                page-break-inside: avoid;
+            }
+            
+            .code-header {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            
+            .code-content {
+                padding: 12px;
+                font-size: 10px;
+                line-height: 1.4;
+            }
+            
+            .code-content pre {
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+            
+            .project-image,
+            .project-images-grid {
+                margin: 12px 0;
+                page-break-inside: avoid;
+            }
+            
+            .project-images-grid {
+                gap: 12px;
+            }
+            
+            .footer {
+                padding: 20px 30px;
+                font-size: 12px;
+                page-break-before: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 25px 15px;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .header .subtitle {
+                font-size: 14px;
+            }
+            
+            .content, .footer {
+                padding: 25px 15px;
+            }
+            
+            .section-title {
+                font-size: 22px;
+            }
+            
+            .competencies-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-meta {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-images-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🚀 Portfolio | Rakhyeun Jo</h1>
+            <div class="subtitle">Embedded System Engineer | 9 Years Experience | HW/FW Full-Stack Developer</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Core Competencies -->
+            <div class="section">
+                <h2 class="section-title">📋 Core Competencies</h2>
+                <div class="competencies-wrapper">
+                    <div class="competencies-list">
+                        <div class="competency-item">
+                            <div class="competency-icon">💻</div>
+                            <div class="competency-text"><strong>Embedded System:</strong> STM32 (F4/G0), ARM Cortex-M, FreeRTOS</div>
+                        </div>
+                        <div class="competency-item">
+                            <div class="competency-icon">⚡</div>
+                            <div class="competency-text"><strong>Hardware Design:</strong> Circuit Design, PCB Layout</div>
+                        </div>
+                        <div class="competency-item">
+                            <div class="competency-icon">🎛️</div>
+                            <div class="competency-text"><strong>Real-time Control:</strong> PID Control, Motor Control (Stepper, BLDC)</div>
+                        </div>
+                        <div class="competency-item">
+                            <div class="competency-icon">🔬</div>
+                            <div class="competency-text"><strong>Optical System:</strong> UV/IR LED, Photo Diode Array, Laser System</div>
+                        </div>
+                        <div class="competency-item">
+                            <div class="competency-icon">📡</div>
+                            <div class="competency-text"><strong>Communication:</strong> UART/SPI/I2C, Ethernet (LwIP), TCP/UDP</div>
+                        </div>
+                        <div class="competency-item">
+                            <div class="competency-icon">🔧</div>
+                            <div class="competency-text"><strong>Tools:</strong> STM32 IDE, Git/Tortoise SVN, C/Python</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Index -->
+            <div class="section">
+                <div class="project-index">
+                    <h3>📑 Project Index</h3>
+                    <div class="project-index-list">
+                        <div class="project-index-item">
+                            <div class="project-index-number">Project 01</div>
+                            <div class="project-index-title">💧 Nu-2000</div>
+                            <div class="project-index-desc">UV+IR Solution Concentration Analyzer</div>
+                        </div>
+                        <div class="project-index-item">
+                            <div class="project-index-number">Project 02</div>
+                            <div class="project-index-title">🔬 Psi-1000/3000</div>
+                            <div class="project-index-desc">Precision Gas Control System</div>
+                        </div>
+                        <div class="project-index-item">
+                            <div class="project-index-number">Project 03</div>
+                            <div class="project-index-title">🧪 L-Titrator</div>
+                            <div class="project-index-desc">Titration-Based Concentration Analyzer</div>
+                        </div>
+                        <div class="project-index-item">
+                            <div class="project-index-number">Project 04</div>
+                            <div class="project-index-title">🔧 JIG System</div>
+                            <div class="project-index-desc">Automated Board Test Equipment</div>
+                        </div>
+                        <div class="project-index-item">
+                            <div class="project-index-number">Project 05</div>
+                            <div class="project-index-title">🔴 L-LPC</div>
+                            <div class="project-index-desc">Laser Particle Counter</div>
+                        </div>
+                        <div class="project-index-item">
+                            <div class="project-index-number">Project 06</div>
+                            <div class="project-index-title">📊 SSC</div>
+                            <div class="project-index-desc">Photo Diode Array Analyzer</div>
+                        </div>
+                        <div class="project-index-item">
+                            <div class="project-index-number">Project 07</div>
+                            <div class="project-index-title">🧪 MS (Aston)</div>
+                            <div class="project-index-desc">Mass Spectrometer DRV Board</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects -->
+            <div class="section">
+                <h2 class="section-title">💼 Major Projects</h2>
+
+                <!-- Project 1: Nu-2000 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-title">💧 Nu-2000 (Lux) - UV+IR Solution Concentration Analyzer</div>
+                        <div class="project-subtitle">Optical concentration analysis equipment using UV+IR absorption</div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <div class="meta-label">Role</div>
+                                <div class="meta-value">Circuit Design + Firmware Development (100%)</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">MCU</div>
+                                <div class="meta-value">STM32F407 (ARM Cortex-M4, 168MHz)</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Period</div>
+                                <div class="meta-value">2020 ~ 2021</div>
+                            </div>
+                        </div>
+
+                        <div class="project-images-grid">
+                            <img src="images/nu2000/1.png" alt="Nu-2000 Hardware Block Diagram" class="project-image">
+                            <img src="images/nu2000/2.png" alt="Nu-2000 System Block Diagram" class="project-image">
+                        </div>
+
+                        <div class="project-section">
+                            <h4>🎯 Key Technologies</h4>
+                            <ul>
+                                <li>UV/IR LED Optical Measurement: Concentration analysis based on absorbance</li>
+                                <li>ADS1115 16-bit ADC: I2C interface, Delta-Sigma method</li>
+                                <li>Moving Average Filter: Noise reduction and measurement stabilization</li>
+                                <li>Syringe Pump: A3977 stepper motor microstep control</li>
+                                <li>Nextion HMI LCD: Touchscreen UI</li>
+                            </ul>
+                        </div>
+
+                        <div class="code-block">
+                            <div class="code-header">C Language - I2C Sensor Data Moving Average</div>
+                            <div class="code-content">
+                                <pre>// ADS1115.c - I2C ADC sensor data acquisition and moving average calculation
+// Measure UV/IR Photo Diode signal with 16-bit ADC
+
+/* Read ADC data via I2C */
+int ads1115_read(uint16_t addr, uint8_t *pdata) {
+    uint16_t i2c_addr = (addr | 0x01);  // Read operation
+    int result = HAL_I2C_Master_Receive(&hi2c3, i2c_addr, pdata, 2, 10);
+    ads1115_i2c_err_check(addr, result);
+    return result;
+}
+
+/* Moving average calculation - Noise reduction and stable measurement */
+void adc_pd_svc_beta(uint8_t ch, int sig_dark, uint16_t val) {
+    uint32_t sum;
+    int i, cnt;
+    
+    // Increment buffer pointer (circular buffer)
+    cnt = pPD_STR->ma_cnt;
+    if (++cnt >= ((bd.env.working[FILTER] & 0x00FFFFFF) * 5))
+        cnt = 0;
+    pPD_STR->ma_cnt = cnt;
+    
+    // Store ADC value (positive only)
+    pPD_STR->raw[cnt] = val;
+    if (val < 0x8000) {
+        pPD_STR->raw_pos[cnt] = val;
+        pPD_STR->vtg_raw = (float)val * 0.000125;  // 125uV/step
+    } else {
+        pPD_STR->raw_pos[cnt] = 0;
+    }
+    
+    // Calculate moving average (Filter * 5 samples)
+    sum = 0;
+    for (i = 0; i < ((bd.env.working[FILTER] & 0x00FFFFFF) * 5); i++) 
+        sum += pPD_STR->raw_pos[i];
+    
+    pPD_STR->raw_mavg = (uint16_t)((float)sum / (float)((bd.env.working[FILTER] & 0x00FFFFFF) * 5));
+    pPD_STR->vtg_mavg = (float)pPD_STR->raw_mavg * 0.000125;  // Voltage conversion
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: Psi-1000 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-title">🔬 Psi-1000/3000 - Precision Gas Control System</div>
+                        <div class="project-subtitle">Precision gas control system based on vacuum gauge monitoring</div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <div class="meta-label">Role</div>
+                                <div class="meta-value">Circuit Design + Firmware Development (100%)</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">MCU</div>
+                                <div class="meta-value">STM32F407 (ARM Cortex-M4, 168MHz)</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Period</div>
+                                <div class="meta-value">2021 ~ 2022</div>
+                            </div>
+                        </div>
+
+                        <img src="images/psi1000/1.png" alt="Psi-1000 System Block Diagram" class="project-image">
+
+                        <div class="project-section">
+                            <h4>🎯 Key Technologies</h4>
+                            <ul>
+                                <li>High-Speed PID Feedback Control: 250ms cycle pressure control</li>
+                                <li>FreeRTOS Multitasking: Parallel processing of pressure control, sensors, and communication</li>
+                                <li>Ethernet (LwIP): TCP/UDP PC control interface</li>
+                                <li>PID Auto-Tuning: Automatic search for optimal parameters</li>
+                            </ul>
+                        </div>
+
+                        <div class="code-block">
+                            <div class="code-header">C Language - Gas Pressure PID Control</div>
+                            <div class="code-content">
+                                <pre>// PrsCtrl.c - Precision gas pressure PID control
+// Vacuum gauge monitoring + 250ms cycle high-speed feedback
+
+/* Pressure control variables */
+INTERNAL float32_t sglPrsCtrlFilteredPressureP1;   // Input pressure (torr)
+INTERNAL float32_t sglPrsCtrlControlPeriod = 0.25f; // 250ms control cycle
+
+/* PID pressure control algorithm */
+void pid_pressure_compute(PID_STR *pPID) {
+    float error = pPID->sp - pPID->pv;  // Target pressure - Current pressure
+    
+    // P (Proportional term) - Immediate error response
+    pPID->p_term = pPID->kp * error;
+    
+    // I (Integral term) - Accumulated error correction
+    pPID->i_term += pPID->ki * error;
+    if (pPID->i_term > pPID->i_max) pPID->i_term = pPID->i_max;
+    if (pPID->i_term < pPID->i_min) pPID->i_term = pPID->i_min;
+    
+    // D (Derivative term) - Suppress sudden changes
+    pPID->d_term = pPID->kd * (error - pPID->prev_error);
+    pPID->prev_error = error;
+    
+    // Final output = Valve PWM duty
+    pPID->co = pPID->p_term + pPID->i_term + pPID->d_term;
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: L-Titrator -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-title">🧪 L-Titrator - Titration-Based Solution Concentration Analyzer</div>
+                        <div class="project-subtitle">Solution concentration analysis equipment using titration method</div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <div class="meta-label">Role</div>
+                                <div class="meta-value">Circuit Design + Firmware Development (100%)</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">MCU</div>
+                                <div class="meta-value">STM32F407 (ARM Cortex-M4)</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Period</div>
+                                <div class="meta-value">2020 ~ 2021</div>
+                            </div>
+                        </div>
+
+                        <img src="images/titrator/1.png" alt="L-Titrator System Block Diagram" class="project-image">
+
+                        <div class="project-section">
+                            <h4>🎯 Key Technologies</h4>
+                            <ul>
+                                <li>Hamilton Syringe Pump: RS485 protocol control</li>
+                                <li>State Machine-Based Control: Stable pump operation management</li>
+                                <li>pH/Conductivity Sensor: Automatic titration endpoint detection</li>
+                            </ul>
+                        </div>
+
+                        <div class="code-block">
+                            <div class="code-header">C Language - Syringe Pump State Machine</div>
+                            <div class="code-content">
+                                <pre>// syringe_pump_ctrl.c - Hamilton syringe pump state machine control
+// Syringe pump command/response processing via RS485 communication
+
+/* Syringe pump state machine */
+void syr_pump_st10_svc(void) {
+    int data_pos;
+    
+    switch (syr_pump[syr_pump_ch].st) {
+        case 0x10:  // Query syringe status
+            syr_pump_query_cmd(QUERY_SRG_STATUS);
+            syr_pump[syr_pump_ch].st++;
+            syr_pump[syr_pump_ch].resp_cnt = 0;
+            break;
+            
+        case 0x11:  // Wait for response and process
+            if (++syr_pump[syr_pump_ch].resp_cnt >= SRG_PUMP_RESP_TIMEOUT) {
+                // Timeout - Return to initial state
+                syr_pump[syr_pump_ch].st = SRG_PUMP_ST00_DETECT;
+                trace_printf(TPID_DEBUG, "syr_pump[%d] : no response\n", syr_pump_ch);
+            } else {
+                if (syr_pump_rx_flag == 1) {
+                    syr_pump_rx_flag = 0;
+                    data_pos = is_Q_ack_packet(uart[TPID_RS485].command, uart[TPID_RS485].cmd_index);
+                    
+                    if (data_pos > 0) {
+                        syr_pump[syr_pump_ch].syr_status = syr_pump[syr_pump_ch].temp;
+                        if (syr_pump[syr_pump_ch].syr_status == 0) {
+                            trace_printf(TPID_DEBUG, "syr_pump[%d] : initialized\n", syr_pump_ch);
+                            syr_pump[syr_pump_ch].st++;
+                        }
+                    }
+                }
+            }
+            break;
+    }
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: JIG System -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-title">🔧 JIG System - Automated Board Test Equipment</div>
+                        <div class="project-subtitle">Automatic inspection system for mass production</div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <div class="meta-label">Role</div>
+                                <div class="meta-value">C# Desktop App + Firmware (100%)</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Platform</div>
+                                <div class="meta-value">Windows C# + STM32F103</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Achievement</div>
+                                <div class="meta-value">60% reduction in inspection time</div>
+                            </div>
+                        </div>
+
+                        <div class="project-images-grid">
+                            <img src="images/jig/1.png" alt="JIG System Overview" class="project-image">
+                            <img src="images/jig/2.png" alt="JIG Test Interface" class="project-image">
+                            <img src="images/jig/3.png" alt="JIG Hardware Setup" class="project-image">
+                            <img src="images/jig/4.png" alt="JIG Test Results" class="project-image">
+                        </div>
+
+                        <div class="project-section">
+                            <h4>🎯 Key Technologies</h4>
+                            <ul>
+                                <li>C# WPF Desktop App: Test sequence automation</li>
+                                <li>UART Communication: Bidirectional PC ↔ Test Board</li>
+                                <li>Automatic Firmware Write: ST-Link integration</li>
+                                <li>Pass/Fail Judgment: Automatic ADC/DAC/Sensor measurement</li>
+                                <li>Inspection DB Storage: Product serial + result logging</li>
+                            </ul>
+                        </div>
+
+                        <div class="project-section">
+                            <h4>📈 Achievements</h4>
+                            <ul>
+                                <li>60% time reduction compared to manual inspection (30min → 12min)</li>
+                                <li>30% reduction in defect rate (elimination of human error)</li>
+                                <li>Quality tracking enabled through inspection history DB management</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: L-LPC -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-title">🔴 L-LPC - Laser Particle Counter</div>
+                        <div class="project-subtitle">Slurry particle analysis equipment using laser optics</div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <div class="meta-label">Role</div>
+                                <div class="meta-value">Circuit Design + Firmware Development (100%)</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">MCU</div>
+                                <div class="meta-value">STM32F407 (ARM Cortex-M4)</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Period</div>
+                                <div class="meta-value">2022 ~ 2023</div>
+                            </div>
+                        </div>
+
+                        <img src="images/l_lpc/1.png" alt="L-LPC System Block Diagram" class="project-image">
+
+                        <div class="project-section">
+                            <h4>🎯 Key Technologies</h4>
+                            <ul>
+                                <li>Laser Optics: Particle counting based on scattered light detection</li>
+                                <li>TCP/IP Communication (LwIP): PC remote control and data transmission</li>
+                                <li>FreeRTOS: Real-time processing based on multitasking</li>
+                                <li>High-Speed ADC Sampling: Real-time particle signal detection</li>
+                                <li>Slurry Analysis: Particle size and concentration measurement</li>
+                            </ul>
+                        </div>
+
+                        <div class="code-block">
+                            <div class="code-header">C Language - TCP Server Communication (LwIP netconn API)</div>
+                            <div class="code-content">
+                                <pre>// ethernet.c - TCP server communication (LwIP netconn API)
+// FreeRTOS task for TCP client connection management
+
+void TcpTask(void *arg) {
+    struct netconn *conn, *newconn;
+    err_t err, recv_err;
+    
+    // 1. Create and bind TCP connection
+    conn = netconn_new(NETCONN_TCP);
+    err = netconn_bind(conn, NULL, TELNET_TCP_PORT);  // Port 23
+    netconn_listen(conn);
+    
+    while (1) {
+        task_cnt_tcp++;
+        osDelay(1);
+        
+        // 2. Accept client connection (1ms timeout)
+        conn->recv_timeout = 1;
+        err = netconn_accept(conn, &newconn);
+        
+        if (err == ERR_OK) {
+            bd.eth.tcp.connected = 1;
+            netconn_getaddr(newconn, &bd.eth.tcp.remote_ip, &bd.eth.tcp.remote_port, 0);
+            
+            for (;;) {
+                // 3. Data reception handling
+                newconn->recv_timeout = 1;
+                recv_err = netconn_recv(newconn, &buf);
+                
+                if (recv_err == ERR_OK) {
+                    netbuf_data(buf, &data, &len);
+                    for (i = 0; i < len; i++)
+                        debug_command_process(TPID_TCP, ((char *)data)[i]);
+                    netbuf_delete(buf);
+                } else if (recv_err == ERR_CLSD) {
+                    netconn_close(newconn);
+                    break;  // Connection closed
+                }
+            }
+        }
+    }
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6: SSC -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-title">📊 SSC - Photo Diode Array Slurry Analyzer</div>
+                        <div class="project-subtitle">Optical slurry analysis equipment using Photo Diode Array</div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <div class="meta-label">Role</div>
+                                <div class="meta-value">Circuit Design + Firmware Development (100%)</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">MCU</div>
+                                <div class="meta-value">STM32G0 Series</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Period</div>
+                                <div class="meta-value">2022 ~ 2023</div>
+                            </div>
+                        </div>
+
+                        <img src="images/ssc/1.png" alt="SSC System Block Diagram" class="project-image">
+
+                        <div class="project-section">
+                            <h4>🎯 Key Technologies</h4>
+                            <ul>
+                                <li>Photo Diode Array: Multi-channel simultaneous optical measurement</li>
+                                <li>UART Interrupt + Queue: Real-time sensor data acquisition</li>
+                                <li>Spectral Analysis: Wavelength-specific absorbance measurement</li>
+                                <li>RS485 Communication: External equipment integration</li>
+                                <li>Slurry Concentration Analysis: Real-time monitoring solution</li>
+                            </ul>
+                        </div>
+
+                        <div class="code-block">
+                            <div class="code-header">C Language - UART Interrupt and Data Collection</div>
+                            <div class="code-content">
+                                <pre>// uart_isr.c - UART interrupt-driven data acquisition
+// Circular buffer for sensor data streaming
+
+/* UART Rx interrupt handler */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+    if (huart == &huart2) {
+        // Store received byte in circular buffer
+        uart_rx_buffer[uart_rx_write_idx++] = uart_rx_byte;
+        if (uart_rx_write_idx >= UART_RX_BUFFER_SIZE)
+            uart_rx_write_idx = 0;
+        
+        // Restart receive for next byte
+        HAL_UART_Receive_IT(&huart2, &uart_rx_byte, 1);
+    }
+}
+
+/* UART error handling */
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
+    if (huart->ErrorCode & HAL_UART_ERROR_ORE) {
+        // Overrun error - clear and restart
+        __HAL_UART_CLEAR_OREFLAG(huart);
+    }
+    HAL_UART_Receive_IT(huart, &uart_rx_byte, 1);
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 7: MS -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-title">🧪 MS (Aston) - Mass Spectrometer DRV Board</div>
+                        <div class="project-subtitle">Mass Spectrometer Drive Board - Pump, sensor, and equipment control</div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <div class="meta-label">Role</div>
+                                <div class="meta-value">DRV Board Circuit Design + Firmware (100%)</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">MCU</div>
+                                <div class="meta-value">STM32F407 (ARM Cortex-M4)</div>
+                            </div>
+                            <div class="meta-item">
+                                <div class="meta-label">Period</div>
+                                <div class="meta-value">2022 ~ 2023</div>
+                            </div>
+                        </div>
+
+                        <div class="project-images-grid">
+                            <img src="images/ms/1.png" alt="MS DRV Board Block Diagram" class="project-image">
+                            <img src="images/ms/2.png" alt="MS DRV Board Block Diagram2" class="project-image">
+                            <img src="images/ms/3.png" alt="MS Protocol Communication" class="project-image">
+                            <img src="images/ms/4.png" alt="MS Protocol Communication2" class="project-image">
+                        </div>
+
+                        <div class="project-section">
+                            <h4>🎯 DRV Board Key Features</h4>
+                            <ul>
+                                <li>External Protocol Communication: Horiba CS-610F protocol implementation</li>
+                                <li>High Voltage Control: SEM voltage -1500V, Lens voltage ±250V</li>
+                                <li>PID Control: Precision control of vacuum pump and heater</li>
+                                <li>Relay Control: External equipment On/Off control</li>
+                            </ul>
+                        </div>
+
+                        <div class="code-block">
+                            <div class="code-header">C Language - Horiba CS-610F Protocol Implementation</div>
+                            <div class="code-content">
+                                <pre>// CS_610F_comm.c - Horiba CS-610F protocol implementation
+// Communication protocol handling with external equipment
+
+/* Protocol response generation - Measurement data transmission */
+// Command : R,DD[CR][LF]
+// Response: DD,XXX,X,X,XXX.XX,XXXXXX,...[CR][LF]
+void cmd_RDD_svc(void) {
+    char resp[70];
+    int  cnt = 0;
+    int  resp_cnt = bd.cs610f.resp_cnt;
+    
+    if (++bd.cs610f.resp_cnt >= 1000)
+        bd.cs610f.resp_cnt = 0;
+    
+    // Build response frame
+    resp[cnt++] = 'D';
+    resp[cnt++] = 'D';
+    resp[cnt++] = ',';
+    
+    cnt += sprintf(&resp[cnt], "%03d", resp_cnt);           // Sequence No
+    resp[cnt++] = ',';
+    cnt += sprintf(&resp[cnt], "%01d", bd.cs610f.meas_stat); // Status
+    resp[cnt++] = ',';
+    cnt += sprintf(&resp[cnt], "%01d", bd.cs610f.chem_type); // Chemical type
+    resp[cnt++] = ',';
+    cnt += sprintf(&resp[cnt], "%06.2f", bd.concent_str.temp_1);    // Temperature
+    resp[cnt++] = ',';
+    cnt += sprintf(&resp[cnt], "%06.2f", bd.concent_str.concent1);  // Concentration 1
+    resp[cnt++] = ',';
+    cnt += sprintf(&resp[cnt], "%06.2f", bd.concent_str.concent2);  // Concentration 2
+    
+    // Send response
+    term_printf(TPID_RS232, "%s\\r\\n", resp);
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Rakhyeun Jo | 조락현</strong></p>
+            <p>📧 92lock@kakao.com | 📱 010-7311-0402</p>
+            <p>🐙 github.com/Rakeen-Jo</p>
+            <p style="margin-top: 20px; color: #999;">
+            </p>
+        </div>
+    </div>
+</body>
+</html>

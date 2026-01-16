@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>조락현 | Rakhyeun Jo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            background: #e5e5e5;
+            padding: 40px 20px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 50px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #34495e;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Main Content */
+        .content {
+            padding: 40px 50px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #34495e;
+            display: inline-block;
+            page-break-after: avoid;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background: #ecf0f1;
+            padding: 20px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #34495e;
+            page-break-inside: avoid;
+        }
+
+        .summary-box h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #2c3e50;
+        }
+
+        .summary-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .summary-box li {
+            padding: 6px 0;
+            padding-left: 22px;
+            position: relative;
+            font-size: 13px;
+        }
+
+        .summary-box li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #34495e;
+            font-weight: bold;
+        }
+
+        /* Two Column Layout */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        /* Experience */
+        .job {
+            margin-bottom: 28px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #34495e;
+            page-break-inside: avoid;
+        }
+
+        .job-header {
+            margin-bottom: 12px;
+        }
+
+        .job-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .job-company {
+            font-size: 16px;
+            color: #2c3e50;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .job-period {
+            font-size: 13px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .projects-toggle {
+            margin-top: 12px;
+            padding: 10px 18px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            user-select: none;
+            font-weight: 500;
+            font-size: 13px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .projects-toggle:hover {
+            background: #f0f0f0;
+        }
+
+        .projects-content {
+            display: none;
+            margin-top: 12px;
+            padding-left: 12px;
+        }
+
+        .projects-content.active {
+            display: block;
+        }
+
+        .projects-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .projects-content li {
+            padding: 5px 0;
+            padding-left: 18px;
+            position: relative;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .projects-content li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #34495e;
+        }
+
+        /* Skills */
+        .skill-category {
+            margin-bottom: 20px;
+            padding: 18px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            page-break-inside: avoid;
+        }
+
+        .skill-category h4 {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .skill-category ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .skill-category li {
+            padding: 4px 0;
+            padding-left: 18px;
+            position: relative;
+            font-size: 13px;
+        }
+
+        .skill-category li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #34495e;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Hobbies - Removed */
+
+        /* Education */
+        .education-box {
+            padding: 20px;
+            background: #ecf0f1;
+            border-radius: 12px;
+            margin-top: 25px;
+            border-left: 4px solid #34495e;
+            page-break-inside: avoid;
+        }
+
+        .education-box h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .education-box p {
+            font-size: 13px;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 50px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
+            
+            * {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+            
+            body {
+                padding: 0;
+                background: white;
+                line-height: 1.4;
+                orphans: 3;
+                widows: 3;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .header {
+                padding: 20px 30px;
+                page-break-after: avoid;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .header .subtitle {
+                font-size: 14px;
+            }
+            
+            .contact-info {
+                gap: 20px;
+                font-size: 11px;
+            }
+            
+            .content {
+                padding: 20px 30px;
+            }
+            
+            .section {
+                margin-bottom: 20px;
+                page-break-inside: avoid;
+            }
+            
+            .section-title {
+                font-size: 22px;
+                margin-bottom: 15px;
+                page-break-after: avoid;
+            }
+            
+            .summary-box {
+                padding: 15px 20px;
+                margin-bottom: 20px;
+            }
+            
+            .summary-box h3 {
+                font-size: 16px;
+            }
+            
+            .summary-box li {
+                font-size: 11px;
+                padding: 5px 0;
+            }
+            
+            .two-columns {
+                gap: 30px;
+                margin-top: 20px;
+            }
+            
+            .job {
+                margin-bottom: 20px;
+                padding: 15px;
+            }
+            
+            .job-title {
+                font-size: 16px;
+            }
+            
+            .job-company {
+                font-size: 14px;
+            }
+            
+            .job-period {
+                font-size: 11px;
+            }
+            
+            .projects-toggle {
+                display: none;
+            }
+            
+            .projects-content {
+                display: block !important;
+                margin-top: 10px;
+            }
+            
+            .projects-content li {
+                font-size: 11px;
+                padding: 4px 0;
+            }
+            
+            .skill-category {
+                margin-bottom: 15px;
+                padding: 15px;
+            }
+            
+            .skill-category h4 {
+                font-size: 14px;
+            }
+            
+            .skill-category li {
+                font-size: 11px;
+                padding: 3px 0;
+            }
+            
+            .education-box {
+                padding: 15px;
+                margin-top: 20px;
+            }
+            
+            .education-box h4 {
+                font-size: 14px;
+            }
+            
+            .education-box p {
+                font-size: 11px;
+            }
+            
+            .footer {
+                padding: 20px 30px;
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>조락현 | Rakhyeun Jo</h1>
+            <div class="subtitle">⚡ Embedded System Engineer | 9 Years Experience | HW/FW Full-Stack</div>
+            <div class="contact-info">
+                <div class="contact-item">📧 92lock@kakao.com</div>
+                <div class="contact-item">📱 010-7311-0402</div>
+                <div class="contact-item">🐙 github.com/Rakeen-Jo</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Summary -->
+            <div class="summary-box">
+                <h3>💼 핵심 역량 | Core Competencies</h3>
+                <ul>
+                    <li>9년간 STM32 기반 임베디드 시스템 Full-Stack 개발 전문 (회로 설계 → 펌웨어 → 양산)</li>
+                    <li>8+ 분석 장비 메인보드 설계 및 양산 완료</li>
+                    <li>HW/FW 통합 개발로 디버깅 효율 40% 향상</li>
+                    <li>FreeRTOS, PID Control, Ethernet 통신 전문</li>
+                    <li>자동화 테스트 JIG 개발로 검사 시간 60% 단축</li>
+                    <li>특허 발명 2건 출원 (가스 제어, 광학 분석)</li>
+                </ul>
+            </div>
+
+            <!-- Two Columns: Experience & Skills -->
+            <div class="two-columns">
+                <!-- Left Column: Experience -->
+                <div>
+                    <div class="section">
+                        <h2 class="section-title">🏢 Work Experience</h2>
+
+                        <!-- ATIK -->
+                        <div class="job">
+                            <div class="job-header">
+                                <div class="job-company">ATIK Co., Ltd.</div>
+                                <div class="job-title">Senior R&D Engineer</div>
+                                <div class="job-period">📅 Aug 2020 ~ Present (5y 5m) | R&D Center / Main Board HW/FW Design</div>
+                            </div>
+                            <div class="projects-toggle" onclick="toggleProjects(this)">
+                                📂 8 Major Projects ▼
+                            </div>
+                            <div class="projects-content">
+                                <ul>
+                                    <li>Psi-1000/3000: Precision Gas Pressure Control System</li>
+                                    <li>L-LPC: Laser Particle Analyzer</li>
+                                    <li>MS: Mass Spectrometer DRV Board</li>
+                                    <li>JIG System: Automated Board Test Equipment</li>
+                                    <li>L-Titrator: Titration Concentration Analyzer</li>
+                                    <li>Nu-2000: UV+IR Optical Concentration Analyzer</li>
+                                    <li>GasQuantrol: Gas Control Equipment</li>
+                                    <li>Sigma/Epsilon/SSC Series</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Chemtronics -->
+                        <div class="job">
+                            <div class="job-header">
+                                <div class="job-company">Chemtronics Co., Ltd.</div>
+                                <div class="job-title">Junior R&D Engineer</div>
+                                <div class="job-period">📅 Aug 2019 ~ Aug 2020 (1y) | Consumer Electronics Team / Touch Module</div>
+                            </div>
+                            <div class="projects-toggle" onclick="toggleProjects(this)">
+                                📂 4 Major Projects ▼
+                            </div>
+                            <div class="projects-content">
+                                <ul>
+                                    <li>LG Induction/Oven Touch PBA Mass Production</li>
+                                    <li>Samsung Air Conditioner Touch PBA Mass Production</li>
+                                    <li>Winix Air Purifier Touch PBA</li>
+                                    <li>Haatz Hood Proximity Sensor Touch PBA</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Dreamtech -->
+                        <div class="job">
+                            <div class="job-header">
+                                <div class="job-company">Dreamtech Co., Ltd.</div>
+                                <div class="job-title">Junior R&D Engineer</div>
+                                <div class="job-period">📅 Nov 2016 ~ May 2019 (2y 7m) | Advanced R&D Lab / Fingerprint Module</div>
+                            </div>
+                            <div class="projects-toggle" onclick="toggleProjects(this)">
+                                📂 4 Major Projects ▼
+                            </div>
+                            <div class="projects-content">
+                                <ul>
+                                    <li>Hyundai Motor Fingerprint Recognition PBA (Mass Production)</li>
+                                    <li>Mobile Ultrasonic Fingerprint Recognition PBA</li>
+                                    <li>FPC Fingerprint Recognition PBA ODM</li>
+                                    <li>3D MID Automotive Module (Government Project)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Skills -->
+                <div>
+                    <div class="section">
+                        <h2 class="section-title">🛠️ Technical Skills</h2>
+
+                        <div class="skill-category">
+                            <h4>⚡ Circuit Design</h4>
+                            <ul>
+                                <li>STM32F4/F7 Main Board Design</li>
+                                <li>Switching/Linear Regulator Power Supply</li>
+                                <li>16-bit ADC + OP-Amp/TIA Sensor Circuit</li>
+                                <li>16-bit DAC External Interface</li>
+                                <li>Photocoupler Isolation Circuit</li>
+                                <li>PCB Artwork (PADS, Altium Designer)</li>
+                            </ul>
+                        </div>
+
+                        <div class="skill-category">
+                            <h4>💻 Firmware Design</h4>
+                            <ul>
+                                <li>STM32 Firmware Development (C)</li>
+                                <li>FreeRTOS Task Management</li>
+                                <li>PID Control Algorithm</li>
+                                <li>Y-modem IAP Bootloader</li>
+                                <li>Ethernet TCP/UDP Communication</li>
+                                <li>UART/SPI/I2C Protocol</li>
+                                <li>Touch LCD UI/UX Design</li>
+                            </ul>
+                        </div>
+
+                        <div class="skill-category">
+                            <h4>🖥️ Tools & Software</h4>
+                            <ul>
+                                <li>Circuit: OrCAD, PADS, Altium Designer</li>
+                                <li>Firmware: STM32 IDE, VS Code</li>
+                                <li>Software: C, Python</li>
+                                <li>Version Control: Git, Tortoise SVN</li>
+                            </ul>
+                        </div>
+
+                        <div class="education-box">
+                            <h4>🎓 Education</h4>
+                            <p>
+                                <strong>Myongji University</strong> (2011~2017)<br>
+                                Bachelor of Science in Electronics Engineering
+                            </p>
+                        </div>
+
+                        <div class="skill-category">
+                            <h4>📜 Certifications</h4>
+                            <ul>
+                                <li>Computer Specialist Level 3</li>
+                                <li>ITQ: HWP(B) / Access(B) / Excel(B) / PowerPoint(A)</li>
+                                <li>TOEIC Speaking: 110 (Intermediate Mid 1)</li>
+                                <li>Excavator Operator License (2012.11)</li>
+                            </ul>
+                        </div>
+
+                        <div class="skill-category">
+                            <h4>🏆 Awards & Activities</h4>
+                            <ul>
+                                <li>Hanium ICT Contest - Korea IT Industry Association (2016.09~2016.12)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hobbies Section Removed -->
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            📎 Detailed project information and code samples are available in the portfolio!<br>
+        </div>
+    </div>
+
+    <script>
+        function toggleProjects(element) {
+            const content = element.nextElementSibling;
+            content.classList.toggle('active');
+            
+            if (content.classList.contains('active')) {
+                element.innerHTML = element.innerHTML.replace('▼', '▲');
+            } else {
+                element.innerHTML = element.innerHTML.replace('▲', '▼');
+            }
+        }
+    </script>
+</body>
+</html>
