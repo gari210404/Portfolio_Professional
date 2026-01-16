@@ -121,17 +121,15 @@
 
         .summary-box li {
             padding: 6px 0;
-            padding-left: 22px;
-            position: relative;
+            padding-left: 0;
             font-size: 13px;
         }
 
         .summary-box li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
+            content: '✓ ';
             color: #34495e;
             font-weight: bold;
+            margin-right: 8px;
         }
 
         /* Two Column Layout */
@@ -209,17 +207,15 @@
 
         .projects-content li {
             padding: 5px 0;
-            padding-left: 18px;
-            position: relative;
+            padding-left: 0;
             font-size: 13px;
             color: #555;
         }
 
         .projects-content li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
+            content: '→ ';
             color: #34495e;
+            margin-right: 8px;
         }
 
         /* Skills */
@@ -245,18 +241,16 @@
 
         .skill-category li {
             padding: 4px 0;
-            padding-left: 18px;
-            position: relative;
+            padding-left: 0;
             font-size: 13px;
         }
 
         .skill-category li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
+            content: '• ';
             color: #34495e;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 16px;
+            margin-right: 8px;
         }
 
         /* Hobbies - Removed */
@@ -362,6 +356,7 @@
             .summary-box li {
                 font-size: 11px;
                 padding: 5px 0;
+                padding-left: 0;
             }
             
             .two-columns {
@@ -398,6 +393,7 @@
             .projects-content li {
                 font-size: 11px;
                 padding: 4px 0;
+                padding-left: 0;
             }
             
             .skill-category {
@@ -412,6 +408,7 @@
             .skill-category li {
                 font-size: 11px;
                 padding: 3px 0;
+                padding-left: 0;
             }
             
             .education-box {
@@ -574,22 +571,21 @@
                                 <li>Version Control: Git, Tortoise SVN</li>
                             </ul>
                         </div>
+                    </div>
+                </div>
+            </div>
 
-                        <div class="education-box">
+            <!-- Education, Certifications, Awards Section -->
+            <div class="section">
+                <h2 class="section-title">🎓 Education & Certifications</h2>
+                <div class="two-columns">
+                    <!-- Left Column: Education & Awards -->
+                    <div class="left-column">
+                        <div class="skill-category" style="margin-bottom: 20px;">
                             <h4>🎓 Education</h4>
-                            <p>
-                                <strong>Myongji University</strong> (2011~2017)<br>
-                                Bachelor of Science in Electronics Engineering
-                            </p>
-                        </div>
-
-                        <div class="skill-category">
-                            <h4>📜 Certifications</h4>
                             <ul>
-                                <li>Computer Specialist Level 3</li>
-                                <li>ITQ: HWP(B) / Access(B) / Excel(B) / PowerPoint(A)</li>
-                                <li>TOEIC Speaking: 110 (Intermediate Mid 1)</li>
-                                <li>Excavator Operator License (2012.11)</li>
+                                <li><strong>Myongji University</strong> (2011~2017)</li>
+                                <li>Bachelor of Science in Electronics Engineering</li>
                             </ul>
                         </div>
 
@@ -597,6 +593,19 @@
                             <h4>🏆 Awards & Activities</h4>
                             <ul>
                                 <li>Hanium ICT Contest - Korea IT Industry Association (2016.09~2016.12)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Certifications -->
+                    <div class="right-column">
+                        <div class="skill-category">
+                            <h4>📜 Certifications</h4>
+                            <ul>
+                                <li>Computer Specialist Level 3</li>
+                                <li>ITQ: HWP(B) / Access(B) / Excel(B) / PowerPoint(A)</li>
+                                <li>TOEIC Speaking: 110 (Intermediate Mid 1)</li>
+                                <li>Excavator Operator License (2012.11)</li>
                             </ul>
                         </div>
                     </div>

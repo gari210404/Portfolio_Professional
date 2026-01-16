@@ -337,6 +337,74 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
+        /* Tech Stack Section */
+        .tech-stack-wrapper {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            border-radius: 12px;
+            margin-top: 40px;
+            page-break-inside: avoid;
+        }
+
+        .tech-stack-wrapper h3 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .tech-stack-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 40px;
+        }
+
+        .tech-item {
+            margin-bottom: 15px;
+        }
+
+        .tech-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .tech-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .tech-level {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .tech-bar-container {
+            width: 100%;
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tech-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #34495e 0%, #2c3e50 100%);
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+
+        .tech-details {
+            font-size: 11px;
+            color: #666;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
         /* Footer */
         .footer {
             background: #f8f9fa;
@@ -414,6 +482,42 @@
                 gap: 10px 25px;
             }
             
+            .tech-stack-wrapper {
+                padding: 20px 30px;
+                margin-top: 30px;
+                page-break-inside: avoid;
+            }
+            
+            .tech-stack-wrapper h3 {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .tech-stack-grid {
+                gap: 15px 30px;
+            }
+            
+            .tech-item {
+                margin-bottom: 12px;
+            }
+            
+            .tech-name {
+                font-size: 13px;
+            }
+            
+            .tech-level {
+                font-size: 11px;
+            }
+            
+            .tech-bar-container {
+                height: 10px;
+            }
+            
+            .tech-details {
+                font-size: 10px;
+                margin-top: 4px;
+            }
+            
             .project-index {
                 margin-top: 30px;
                 padding: 20px;
@@ -421,7 +525,7 @@
             }
             
             .project-index h3 {
-                font-size: 22px;
+                font-size: 24px;
                 margin-bottom: 15px;
             }
             
@@ -434,15 +538,15 @@
             }
             
             .project-index-number {
-                font-size: 13px;
+                font-size: 14px;
             }
             
             .project-index-title {
-                font-size: 15px;
+                font-size: 17px;
             }
             
             .project-index-desc {
-                font-size: 11px;
+                font-size: 13px;
             }
             
             .competency-text {
@@ -616,6 +720,106 @@
                         <div class="competency-item">
                             <div class="competency-icon">🔧</div>
                             <div class="competency-text"><strong>Tools:</strong> STM32 IDE, Git/Tortoise SVN, C/Python</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tech Stack -->
+            <div class="section">
+                <div class="tech-stack-wrapper">
+                    <h3>💻 Technical Expertise</h3>
+                    <div class="tech-stack-grid">
+                        <div class="tech-column">
+                            <div class="tech-item">
+                                <div class="tech-header">
+                                    <span class="tech-name">Embedded System</span>
+                                    <span class="tech-level">Expert</span>
+                                </div>
+                                <div class="tech-bar-container">
+                                    <div class="tech-bar-fill" style="width: 95%;"></div>
+                                </div>
+                                <div class="tech-details">STM32 (F4/G0), ARM Cortex-M, FreeRTOS</div>
+                            </div>
+
+                            <div class="tech-item">
+                                <div class="tech-header">
+                                    <span class="tech-name">Real-time Control</span>
+                                    <span class="tech-level">Expert</span>
+                                </div>
+                                <div class="tech-bar-container">
+                                    <div class="tech-bar-fill" style="width: 95%;"></div>
+                                </div>
+                                <div class="tech-details">PID Control, Motor Control (Stepper, BLDC)</div>
+                            </div>
+
+                            <div class="tech-item">
+                                <div class="tech-header">
+                                    <span class="tech-name">Optical System</span>
+                                    <span class="tech-level">Advanced</span>
+                                </div>
+                                <div class="tech-bar-container">
+                                    <div class="tech-bar-fill" style="width: 90%;"></div>
+                                </div>
+                                <div class="tech-details">UV/IR LED, Photo Diode Array, Laser System</div>
+                            </div>
+
+                            <div class="tech-item">
+                                <div class="tech-header">
+                                    <span class="tech-name">Programming</span>
+                                    <span class="tech-level">Expert</span>
+                                </div>
+                                <div class="tech-bar-container">
+                                    <div class="tech-bar-fill" style="width: 95%;"></div>
+                                </div>
+                                <div class="tech-details">C (8y), Python (3y), C# (2y)</div>
+                            </div>
+                        </div>
+
+                        <div class="tech-column">
+                            <div class="tech-item">
+                                <div class="tech-header">
+                                    <span class="tech-name">Hardware Design</span>
+                                    <span class="tech-level">Advanced</span>
+                                </div>
+                                <div class="tech-bar-container">
+                                    <div class="tech-bar-fill" style="width: 85%;"></div>
+                                </div>
+                                <div class="tech-details">Circuit Design, PCB Layout (Pads, OrCAD)</div>
+                            </div>
+
+                            <div class="tech-item">
+                                <div class="tech-header">
+                                    <span class="tech-name">Communication Protocol</span>
+                                    <span class="tech-level">Expert</span>
+                                </div>
+                                <div class="tech-bar-container">
+                                    <div class="tech-bar-fill" style="width: 90%;"></div>
+                                </div>
+                                <div class="tech-details">UART/SPI/I2C, RS485, Ethernet (LwIP), TCP/UDP</div>
+                            </div>
+
+                            <div class="tech-item">
+                                <div class="tech-header">
+                                    <span class="tech-name">Sensor Integration</span>
+                                    <span class="tech-level">Expert</span>
+                                </div>
+                                <div class="tech-bar-container">
+                                    <div class="tech-bar-fill" style="width: 90%;"></div>
+                                </div>
+                                <div class="tech-details">ADC/DAC, Temperature, Pressure, pH, Conductivity</div>
+                            </div>
+
+                            <div class="tech-item">
+                                <div class="tech-header">
+                                    <span class="tech-name">Development Tools</span>
+                                    <span class="tech-level">Advanced</span>
+                                </div>
+                                <div class="tech-bar-container">
+                                    <div class="tech-bar-fill" style="width: 85%;"></div>
+                                </div>
+                                <div class="tech-details">STM32CubeIDE, Git, SVN, Oscilloscope, DAQ</div>
+                            </div>
                         </div>
                     </div>
                 </div>
